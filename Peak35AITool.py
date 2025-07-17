@@ -75,7 +75,7 @@ def truncate_text(text, max_tokens=3000):
 
 # === Generazione contenuti GPT ===
 def generate_detailed_summary(text, azienda):
-    prompt = f"Analizza il testo e scrivi una breve descrizione oggettiva dell’azienda “{azienda}”: settore, offerta, mercato."
+    prompt = f"Analizza il testo e scrivi una breve descrizione oggettiva dell’azienda “{azienda}”: settore, offerta, mercato. Includi molteplici keywords in modo da ottimizzare la ricerca in base a parole chiave."
     content = text + "\n\n" + prompt
     try:
         print(f"Token descrizione: {len(tiktoken.encoding_for_model('gpt-3.5-turbo').encode(content))}")
@@ -114,6 +114,11 @@ Esempio Generale:
 
 Testo di riferimento (non citarlo direttamente):
 {text}
+Alcune cose da NON fare:
+- NO descrizione troppo approfondita dei prodotti e dei servizi offerti, tieni a mente che il destinatario del messaggio conosce perfettamente la propria azienda
+- NO certificazioni
+- NO tono eccessivamente ampolloso o lusingatorio (bisogna dimostrare apprezzamento ma senza esagerare
+- NO paragrafi troppo lunghi, sii sintetico
         """
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
@@ -257,6 +262,11 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+
+
+
 
 
 
