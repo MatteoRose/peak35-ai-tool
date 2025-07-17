@@ -5,3 +5,4 @@ pandas
 tiktoken
 openai
 python-dotenv
+openpyxl
