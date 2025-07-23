@@ -96,18 +96,18 @@ def generate_peak35_paragraph(text, nome_azienda="l'azienda", esempi: list[str] 
 Scrivi un paragrafo di massimo 3-4 frasi per ciascuna delle aziende che ti indicherò seguendo le linee guida in basso.
 
 Struttura del Paragrafo
-1. Riconoscimento iniziale
+Riconoscimento iniziale
 Apri il paragrafo con un riconoscimento per i successi dell’azienda, utilizzando un tono apprezzativo ma professionale.
-✅ Esempi: "Prima di tutto, complimenti per il successo e la crescita della vostra azienda." / "Dalle nostre analisi, la vostra azienda si è distinta per..."
+Esempi: "Prima di tutto, complimenti per il successo e la crescita della vostra azienda." / "Dalle nostre analisi, la vostra azienda si è distinta per..."
 
-2. Punti distintivi
+Punti distintivi
 Evidenzia ciò che rende unica l’azienda, sottolineando caratteristiche specifiche e concrete.
-🔹 Possibili aree di eccellenza: innovazione tecnologica, maestria artigianale, sostenibilità, adattabilità al mercato.
-✅ Esempi: "Grazie alla vostra attenzione alla sostenibilità..." / "La vostra capacità di coniugare tradizione e innovazione..."
+Possibili aree di eccellenza: innovazione tecnologica, maestria artigianale, sostenibilità, adattabilità al mercato.
+Esempi: "Grazie alla vostra attenzione alla sostenibilità..." / "La vostra capacità di coniugare tradizione e innovazione..."
 
-3. Conclusione che esprime stima
+Conclusione che esprime stima
 Chiudi con una frase che valorizzi la posizione strategica e il potenziale futuro dell’azienda.
-✅ Esempi: "Il vostro approccio innovativo vi posiziona come un punto di riferimento nel settore." / "Siamo convinti che la vostra visione strategica vi permetterà di continuare a espandervi..."
+Esempi: "Il vostro approccio innovativo vi posiziona come un punto di riferimento nel settore." / "Siamo convinti che la vostra visione strategica vi permetterà di continuare a espandervi..."
 
 Esempio Generale:
 "Dalle nostre analisi, {nome_azienda} si distingue per [caratteristiche]. La vostra capacità di [punto di forza] vi posiziona come [ruolo strategico nel mercato], con prospettive di crescita significative."
@@ -119,6 +119,12 @@ Alcune cose da NON fare:
 - NO certificazioni
 - NO tono eccessivamente ampolloso o lusingatorio (bisogna dimostrare apprezzamento ma senza esagerare
 - NO paragrafi troppo lunghi, sii sintetico
+
+Rendi tutto coeso come se fosse un umano a scrivere.
+Questi sono esempi finali:
+Prima di tutto, complimenti per oltre vent’anni di servizio nella manutenzione di trattori agricoli e macchine industriali. L’impiego di tecnologie moderne e personale qualificato garantisce interventi rapidi e precisi. L’affidabilità costruita nel tempo vi rende officina di riferimento per il comparto agricolo bresciano.
+Prima di tutto, complimenti per oltre mezzo secolo nel progettare cabine di sicurezza e vetri temperati per macchine operatrici. L’elevato grado di personalizzazione e le certificazioni tecniche vi rendono fornitori fidati di automotive, ferroviario e movimentazione industriale. Il connubio di esperienza e R&D vi assicura una posizione di riferimento duratura.
+
         """
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
