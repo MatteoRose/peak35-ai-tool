@@ -65,7 +65,7 @@ Optional examples file:
 
 ## Result
 
-`[State the concrete outcome — e.g. "Generated personalized paragraphs for 150+ target companies, cutting outreach prep from ~X min to ~Y s each."]`
+Used to generate company descriptions and tailored outreach paragraphs for **tens of thousands of SMEs** from the search fund's target database. At roughly one minute per company by hand, that is **hundreds of hours** of manual drafting — produced automatically in seconds per company through parallel batch runs.
 
 ## Note
 
