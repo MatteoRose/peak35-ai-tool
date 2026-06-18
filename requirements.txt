@@ -4,5 +4,4 @@ beautifulsoup4
 pandas
 tiktoken
 openai
-python-dotenv
 openpyxl
