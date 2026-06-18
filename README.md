@@ -2,17 +2,13 @@
 
 A Streamlit tool that crawls a list of companies and uses GPT to generate — in bulk — either an objective company description or a personalized outreach paragraph. Built to speed up deal sourcing during a private-equity search-fund campaign.
 
-**Live demo:** `https://peak35-ai-tool-uec7m7exeocb8uhahug575.streamlit.app/`
+**Live demo:** https://peak35-ai-tool-uec7m7exeocb8uhahug575.streamlit.app/
 
 ---
 
 ## Overview
 
 Sourcing for a search fund meant reaching many SME owners, where generic templates feel impersonal and writing each message by hand doesn't scale. This tool takes a spreadsheet of target companies, reads each company's website, and produces a tailored, ready-to-use paragraph per company. The outreach paragraph follows a deliberate structure — an opening acknowledgment of the company's track record, one or two concrete distinctive points, and a close that signals genuine interest — kept short and human, not flattering or boilerplate.
-
-## Screenshots
-
-`[add a screenshot of the upload screen and the generated-results table]`
 
 ## How it works
 
@@ -32,39 +28,28 @@ Sourcing for a search fund meant reaching many SME owners, where generic templat
 - **Data / Excel:** pandas + openpyxl
 - **Tokenization:** tiktoken
 - **Concurrency:** `concurrent.futures` (thread pool)
-- **Config:** python-dotenv
+- **Key handling:** bring-your-own-key (entered in-app, never stored)
 
 ## Project structure
 
 ```
 peak35-ai-tool/
 ├── Peak35AITool.py        # Streamlit app: crawl → extract → GPT generation → Excel export
-├── WebScraperv35V2.py     # standalone web-scraper module
-├── requirements.txt
-└── .env.example           # template for your OpenAI key (do NOT commit a real .env)
+└── requirements.txt
 ```
 
 ## Setup and run
 
-Requires Python 3.10+ and an OpenAI API key.
+Requires Python 3.10+.
 
 ```bash
 pip install -r requirements.txt
-```
-
-Create a local `.env` (keep it out of version control):
-
-```
-OPENAI_API_KEY=your-key-here
-```
-
-> **Important:** never commit your real `.env`. Add a `.gitignore` containing `.env`, and ship a `.env.example` with the variable name only.
-
-Run the app:
-
-```bash
 streamlit run Peak35AITool.py
 ```
+
+The app uses a **bring-your-own-key** model: paste your own OpenAI API key into the field at the top of the app. The key is used only for that session, in memory — it is never stored, logged, or committed. The hosted demo works the same way, so no secret lives on the server.
+
+> Get a key at [platform.openai.com/api-keys](https://platform.openai.com/api-keys). Never commit API keys to the repository.
 
 ## Input format
 
