@@ -2,7 +2,7 @@
 
 A Streamlit tool that crawls a list of companies and uses GPT to generate — in bulk — either an objective company description or a personalized outreach paragraph. Built to speed up deal sourcing during a private-equity search-fund campaign.
 
-**Live demo:** `[add your Streamlit URL, if deployed]`
+**Live demo:** `https://peak35-ai-tool-uec7m7exeocb8uhahug575.streamlit.app/`
 
 ---
 
@@ -88,4 +88,4 @@ This was built for real search-fund sourcing. Before sharing publicly, make sure
 
 ## Author
 
-Matteo Massimo Rosetti — `[LinkedIn]`
+Matteo Massimo Rosetti — `https://www.linkedin.com/in/matteorosetti/`
