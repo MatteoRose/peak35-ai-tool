@@ -4,16 +4,9 @@ import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin, urlparse
 from openai import OpenAI
-import os
 import tiktoken
-from dotenv import load_dotenv
 import io
 import concurrent.futures
-
-# Carica API Key da .env
-load_dotenv()
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-client = OpenAI(api_key=OPENAI_API_KEY)
 
 # Parametri crawling
 PRIORITY_PATHS = ["/azienda", "/chi-siamo", "/about", "/company"]
@@ -74,7 +67,9 @@ def truncate_text(text, max_tokens=3000):
     return tokenizer.decode(tokens)
 
 # === Generazione contenuti GPT ===
-def generate_detailed_summary(text, azienda):
+# Il client OpenAI viene creato in main() dalla chiave fornita dall'utente e
+# passato qui come argomento: nessuna chiave è cablata nel codice.
+def generate_detailed_summary(client, text, azienda):
     prompt = f"Analizza il testo e scrivi una breve descrizione oggettiva dell’azienda “{azienda}”: settore, offerta, mercato. Includi molteplici keywords in modo da ottimizzare la ricerca in base a parole chiave."
     content = text + "\n\n" + prompt
     try:
@@ -90,7 +85,7 @@ def generate_detailed_summary(text, azienda):
         print(f"Errore OpenAI (descrizione) su {azienda}: {e}")
         return "Errore nella descrizione"
 
-def generate_peak35_paragraph(text, nome_azienda="l'azienda", esempi: list[str] = None):
+def generate_peak35_paragraph(client, text, nome_azienda="l'azienda", esempi=None):
     try:
         prompt = f"""
 Scrivi un paragrafo di massimo 3-4 frasi per ciascuna delle aziende che ti indicherò seguendo le linee guida in basso.
@@ -180,6 +175,15 @@ def main():
         "Verranno generati la descrizione, il paragrafo Peak35 o entrambi."
     )
 
+    # --- Bring-your-own-key ---
+    # La chiave è fornita dall'utente, usata solo in questa sessione (in memoria)
+    # e mai salvata, loggata o committata. Ogni visitatore usa la propria chiave.
+    st.markdown(
+        "🔑 **OpenAI API Key** — usata solo per questa sessione e mai salvata. "
+        "Creane una su [platform.openai.com/api-keys](https://platform.openai.com/api-keys)."
+    )
+    api_key = st.text_input("OpenAI API Key", type="password", placeholder="sk-...")
+
     scelta_output = st.selectbox(
         "Seleziona il tipo di output da generare:",
         ["Descrizione", "Paragrafo Peak35", "Entrambi"]
@@ -203,6 +207,14 @@ def main():
             st.error(f"Errore nel caricamento del file esempi: {e}")
 
     if uploaded_file and st.button("Avvia elaborazione"):
+        if not api_key:
+            st.error("⚠️ Inserisci la tua OpenAI API Key per avviare l'elaborazione.")
+            st.stop()
+
+        # Client creato dalla chiave dell'utente — l'oggetto OpenAI è thread-safe
+        # e viene condiviso tra i thread tramite closure.
+        client = OpenAI(api_key=api_key.strip())
+
         df = pd.read_excel(uploaded_file)
         if not {'Azienda', 'Sito'}.issubset(df.columns):
             st.error("Il file deve contenere le colonne 'Azienda' e 'Sito'.")
@@ -218,7 +230,6 @@ def main():
         status = st.empty()
 
         rows = list(df.iterrows())
-        results = [None] * len(rows)
 
         def process_row_threadsafe(idx, row):
             sito = str(row['Sito']).strip()
@@ -230,12 +241,12 @@ def main():
                 if not testo or len(testo.strip()) < 50:
                     return idx, "Contenuto insufficiente", "Contenuto insufficiente"
                 descrizione = (
-                    generate_detailed_summary(testo, nome_azienda)
+                    generate_detailed_summary(client, testo, nome_azienda)
                     if scelta_output in ["Descrizione", "Entrambi"]
                     else "Non richiesto"
                 )
                 paragrafo = (
-                    generate_peak35_paragraph(testo, nome_azienda, esempi=paragrafi_esempio)
+                    generate_peak35_paragraph(client, testo, nome_azienda, esempi=paragrafi_esempio)
                     if scelta_output in ["Paragrafo Peak35", "Entrambi"]
                     else "Non richiesto"
                 )
@@ -268,16 +279,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
-
-
-
-
-
-
-
-
-
-
-
